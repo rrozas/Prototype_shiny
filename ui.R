@@ -1,9 +1,4 @@
-require(xlsx)
-setwd("/Users/rrozas/Documents/Renault")
-alerts <-  read.xlsx(file = 'Data prototype Renault.xlsx', sheetIndex = 3)
-roc <-  read.xlsx(file = 'Data prototype Renault.xlsx', sheetIndex = 2)
 source('carousel.R')
-AUC <- sum(roc$value_ROC)/100
 
 
 shinyUI(fluidPage(
@@ -24,7 +19,7 @@ shinyUI(fluidPage(
        <li class="active"><a href="#">Alertes EICPS<span class="sr-only">(current)</span></a></li>
        <li><a href="#">Segments usage</a></li>
        <li class="dropdown">
-       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">D?tails <span class="caret"></span></a>
+       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Détails <span class="caret"></span></a>
        <ul class="dropdown-menu" role="menu">
        <li><a href="#">Action</a></li>
        <li><a href="#">Another action</a></li>
@@ -40,10 +35,10 @@ shinyUI(fluidPage(
        <div class="form-group">
        <input type="text" class="form-control" placeholder="Rechercher">
        </div>
-       <button type="submit" class="btn btn-default">OK</button>
+       <button class="btn btn-default">OK</button>
        </form>
        <ul class="nav navbar-nav navbar-right">
-       <li><a href="#">Se d?connecter</a></li>
+       <li><a href="#">Se déconnecter</a></li>
        </ul>
        </div>
        </div>
@@ -51,34 +46,41 @@ shinyUI(fluidPage(
   theme = 'bootstrap.css',
   column(3, img(src="logo_renault.jpeg", height = 80, width = 80)),
   hr(),
-  column(9, h3('Alertes EICPS d?tect?es')),
+  column(9, h3('Alertes EICPS détectées')),
   hr(),
   #column(7,  selectInput('select1',choices = unlist(strsplit(paste(as.character(alerts$Anomalie), collapse = ' '),' ')), multiple = T, label ="")),
-  column(12, selectInput(inputId = 1,choices = as.character(alerts$Anomalie) , label = '')),
+  column(10, selectInput(inputId = 'select1',choices = c('',as.character(alerts$Anomalie)) , label = '')),
+  #column(2, submitButton()),
   column(6,
-         h4('Segments impact?s et facteurs discriminants'),
+         h4(textOutput('text1')),
+         #h4('Segments impactés et facteurs discriminants'),
          htmlOutput(outputId = 'a', inline = T)),
   column(6,
-         h4('Zoom par segment'),
-         carouselPanel(
-           img(src="image.png", height = 450, width = 350),
-           img(src="image1.png", height = 450, width = 350),
-           img(src="image2.png", height = 450, width = 350),
-           img(src="image3.png", height = 450, width = 350),
-           img(src="image4.png", height = 450, width = 350),
-           img(src="image5.png", height = 450, width = 350)
-         )),   
+         h4(textOutput('text2')),
+         #h4('Zoom par segment'),
+         htmlOutput('out1')
+#           carouselPanel(
+#             img(src="image.png", height = 450, width = 350),
+#             img(src="image1.png", height = 450, width = 350),
+#             img(src="image2.png", height = 450, width = 350)
+#           )
+         ),  
   column(6,
-         h4('R?partition g?ographique des accidents'),
+         h4(textOutput('text3')),
+         #h4('Répartition géographique des accidents'),
          htmlOutput(outputId = 'b', inline = T),
-         sliderInput(inputId = 'slider', min = 2001, max = 2014, step = 1, value = 2014, label = 'Ann?e',format = '####')),
+         uiOutput('out2')
+         #sliderInput(inputId = 'slider', min = 2001, max = 2014, step = 1, value = 2014, label = 'Année',format = '####')
+         ),
   column(6,
-         h4('Mots-cl?s rattach?s'),
+         h4(textOutput('text4')),
+         #h4('Mots-clés rattachés'),
          htmlOutput(outputId = 'd')),    
   hr(),
   column(6,
-         h4('Performance pr?dictive du mod?le'),
+         h4(textOutput('text5')),
+         #h4('Performance prédictive du modèle'),
          htmlOutput(outputId = 'c', inline = T),
-         h6(paste0('Aire sous la courbe de ROC : ',as.character(round(AUC)/100)))
+         h6(textOutput('text'))
   )
 ))
