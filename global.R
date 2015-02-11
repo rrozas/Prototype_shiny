@@ -1,7 +1,7 @@
 require(shiny)
 require(googleVis)
 require(xlsx)
-setwd("/Users/rrozas/Documents/Renault")
+#setwd("/Users/rrozas/Documents/Renault")
 features <-  read.xlsx(file = 'Data prototype Renault.xlsx', sheetIndex = 1)
 roc <-  read.xlsx(file = 'Data prototype Renault.xlsx', sheetIndex = 2)
 alerts <-  read.xlsx(file = 'Data prototype Renault.xlsx', sheetIndex = 3)
